@@ -1,0 +1,40 @@
+name: "Pharo setup"
+description: "Install Pharo Virtual Machine and image."
+
+inputs:
+  version:
+    description: "Pharo versio number to install. (e.g. 13)"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set system properties
+      run: |
+        echo "HOST_ARCH=x86_64" >> $env:GITHUB_ENV
+        case "${RUNNER_OS}" in
+          macOS)    HOST_OS=Darwin;;
+          *)        HOST_OS=$RUNNER_OS
+        esac
+        echo "HOST_OS=$HOST_OS" >> $env:GITHUB_ENV
+        echo "FILES_URL=https://files.pharo.org/get-files/${{ inputs.PHARO_VERSION }}0" >> $env:GITHUB_ENV
+
+    - name: Install Pharo VM
+      run: |
+        VM_STATUS="stable"
+        URL='${FILES_URL}/pharo-vm-${HOST_OS}-${HOST_ARCH}-${VM_STATUS}.zip'
+        echo "Downloading $URL"
+        curl -L $URL -o pharo-vm.zip
+        unzip pharo-vm.zip -d pharo-vm
+        rm -f pharo-vm.zip
+      shell: bash
+
+    - name: Get Pharo image
+      run: |
+        IMAGE_PATH=pharoImage-x86_64.zip
+        URL=${FILES_URL}/pharoImage-${HOST_ARCH}.zip"
+        echo "Downloading $URL"
+        curl -L ${PHARO_FILES_URL} -o pharo-image.zip
+        unzip pharo-image.zip
+        rm -f pharo-image.zip
+      shell: bash
