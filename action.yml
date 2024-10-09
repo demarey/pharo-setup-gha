@@ -18,6 +18,7 @@ runs:
         esac
         echo "HOST_OS=$HOST_OS" >> $env:GITHUB_ENV
         echo "FILES_URL=https://files.pharo.org/get-files/${{ inputs.PHARO_VERSION }}0" >> $env:GITHUB_ENV
+      shell: bash
 
     - name: Install Pharo VM
       run: |
