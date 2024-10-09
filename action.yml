@@ -23,7 +23,7 @@ runs:
     - name: Install Pharo VM
       run: |
         VM_STATUS="stable"
-        URL='${FILES_URL}/pharo-vm-${HOST_OS}-${HOST_ARCH}-${VM_STATUS}.zip'
+        URL='${{ env.FILES_URL }}/pharo-vm-${HOST_OS}-${HOST_ARCH}-${VM_STATUS}.zip'
         echo "Downloading $URL"
         curl -L $URL -o pharo-vm.zip
         unzip pharo-vm.zip -d pharo-vm
