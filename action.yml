@@ -22,7 +22,7 @@ runs:
 
     - name: Install Pharo VM
       run: |
-        VM_STATUS="stable"
+        echo "VM_STATUS=stable" >> $GITHUB_ENV
         URL='${{ env.FILES_URL }}/pharo-vm-${{ env.HOST_OS }}-${{ env.HOST_ARCH }}-${{ env.VM_STATUS }}.zip'
         echo "Downloading $URL"
         curl -L $URL -o pharo-vm.zip
