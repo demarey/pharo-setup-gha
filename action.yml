@@ -3,7 +3,7 @@ description: "Install Pharo Virtual Machine and image."
 
 inputs:
   version:
-    description: "Pharo versio number to install. (e.g. 13)"
+    description: "Pharo version number to install. (e.g. 13)"
     required: true
 
 runs:
@@ -11,13 +11,13 @@ runs:
   steps:
     - name: Set system properties
       run: |
-        echo "HOST_ARCH=x86_64" >> $env:GITHUB_ENV
+        echo "HOST_ARCH=x86_64" >> $GITHUB_ENV
         case "${RUNNER_OS}" in
           macOS)    HOST_OS=Darwin;;
           *)        HOST_OS=$RUNNER_OS
         esac
-        echo "HOST_OS=$HOST_OS" >> $env:GITHUB_ENV
-        echo "FILES_URL=https://files.pharo.org/get-files/${{ inputs.PHARO_VERSION }}0" >> $env:GITHUB_ENV
+        echo "HOST_OS=$HOST_OS" >> $GITHUB_ENV
+        echo "FILES_URL=https://files.pharo.org/get-files/${{ inputs.version }}0" >> $GITHUB_ENV
       shell: bash
 
     - name: Install Pharo VM
