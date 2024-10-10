@@ -46,12 +46,13 @@ runs:
       run: |
         IMAGE_PATH=pharoImage-x86_64.zip
         URL="${FILES_URL}/pharoImage-${HOST_ARCH}.zip"
+        VM_DIR=$(echo "${{ inputs.vmDir }}" | sed 's#\\#/#g')
         echo "Downloading $URL"
         curl -L ${URL} -o pharo-image.zip
         unzip pharo-image.zip -d image
         rm -f pharo-image.zip
-        find image -name '*.image' -exec mv '{}' ${{ inputs.imageDir }}/${{ inputs.imageName }}.image \;
-        find image -name '*.changes' -exec mv '{}' ${{ inputs.imageDir }}/${{ inputs.imageName }}.changes \;
+        find image -name '*.image' -exec mv '{}' $VM_DIR/${{ inputs.imageName }}.image \;
+        find image -name '*.changes' -exec mv '{}' $VM_DIR/${{ inputs.imageName }}.changes \;
         mv image/*.sources ${{ inputs.imageDir }}
         rm -rf image
       shell: bash
