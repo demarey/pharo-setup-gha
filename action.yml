@@ -47,3 +47,8 @@ runs:
         rm -rf image
         ls
       shell: bash
+
+  - name: Append Pharo to the PATH
+    run: |
+      echo "${HOME}/pharo-vm" >> $GITHUB_PATH
+    shell: bash
