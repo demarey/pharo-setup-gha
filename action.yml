@@ -41,8 +41,8 @@ runs:
         curl -L ${URL} -o pharo-image.zip
         unzip pharo-image.zip -d image
         rm -f pharo-image.zip
-        find image -name '*.image' -exec rename '{}' ${{ inputs.imageName }}.image\;
-        find image -name '*.changes' -exec rename '{}' ${{ inputs.imageName }}.changes\;
+        find image -name '*.image' -exec mv '{}' ${{ inputs.imageName }}.image \;
+        find image -name '*.changes' -exec mv '{}' ${{ inputs.imageName }}.changes \;
         rm -rf image
         ls
       shell: bash
