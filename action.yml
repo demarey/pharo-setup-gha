@@ -18,7 +18,8 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Set system properties
+    - name: Set env vars related to system
+      id: vars
       run: |
         echo "HOST_ARCH=x86_64" >> $GITHUB_ENV
         case "${RUNNER_OS}" in
@@ -27,32 +28,32 @@ runs:
         esac
         echo "HOST_OS=$HOST_OS" >> $GITHUB_ENV
         echo "FILES_URL=https://files.pharo.org/get-files/${{ inputs.version }}0" >> $GITHUB_ENV
+        VM_DIR=$(echo "${{ inputs.vmDir }}" | sed 's#\\#/#g')
+        echo "VM_DIR=$VM_DIR" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: Install Pharo VM
       run: |
         VM_STATUS="stable"
         URL="${{ env.FILES_URL }}/pharo-vm-${{ env.HOST_OS }}-${{ env.HOST_ARCH }}-${VM_STATUS}.zip"
-        VM_DIR=$(echo "${{ inputs.vmDir }}" | sed 's#\\#/#g')
-        echo "Downloading $URL to $VM_DIR"
+        echo "Downloading $URL to ${{ steps.vars.outputs.VM_DIR }}"
         curl -L $URL -o pharo-vm.zip
-        unzip pharo-vm.zip -d $VM_DIR
+        unzip pharo-vm.zip -d ${{ steps.vars.outputs.VM_DIR }}
         rm -f pharo-vm.zip
         pwd
-        ls -R $VM_DIR
+        ls -R ${{ steps.vars.outputs.VM_DIR }}
       shell: bash
 
     - name: Get Pharo image
       run: |
         IMAGE_PATH=pharoImage-x86_64.zip
         URL="${FILES_URL}/pharoImage-${HOST_ARCH}.zip"
-        VM_DIR=$(echo "${{ inputs.vmDir }}" | sed 's#\\#/#g')
         echo "Downloading $URL"
         curl -L ${URL} -o pharo-image.zip
         unzip pharo-image.zip -d image
         rm -f pharo-image.zip
-        find image -name '*.image' -exec mv '{}' $VM_DIR/${{ inputs.imageName }}.image \;
-        find image -name '*.changes' -exec mv '{}' $VM_DIR/${{ inputs.imageName }}.changes \;
+        find image -name '*.image' -exec mv '{}' ${{ steps.vars.outputs.VM_DIR }}/${{ inputs.imageName }}.image \;
+        find image -name '*.changes' -exec mv '{}' ${{ steps.vars.outputs.VM_DIR }}/${{ inputs.imageName }}.changes \;
         mv image/*.sources ${{ inputs.imageDir }}
         rm -rf image
       shell: bash
@@ -62,7 +63,7 @@ runs:
         echo "${{ inputs.vmDir }}" >> $GITHUB_PATH
         case "${RUNNER_OS}" in
           Linux)    PHARO=${{ inputs.vmDir }}/pharo;;
-          Windows)  PHARO=${{ inputs.vmDir }}\PharoConsole.exe;;
+          Windows)  PHARO=${{ steps.vars.outputs.VM_DIR }}/PharoConsole.exe;;
           macOS)    PHARO=${{ inputs.vmDir }}/Pharo.app/Contents/MacOS/Pharo;;
         esac
         echo "Setting \$PHARO alias to $PHARO"
