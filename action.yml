@@ -5,6 +5,9 @@ inputs:
   version:
     description: "Pharo version number to install. (e.g. 13)"
     required: true
+  imageName:
+    description: "Save the Pharo image under this name"
+    default: "Pharo"
 
 runs:
   using: "composite"
@@ -36,6 +39,10 @@ runs:
         URL="${FILES_URL}/pharoImage-${HOST_ARCH}.zip"
         echo "Downloading $URL"
         curl -L ${URL} -o pharo-image.zip
-        unzip pharo-image.zip
+        unzip pharo-image.zip -d image
         rm -f pharo-image.zip
+        find image -name '*.image' -exec rename '{}' ${{ inputs.imageName }}.image\;
+        find image -name '*.changes' -exec rename '{}' ${{ inputs.imageName }}.changes\;
+        rm -rf image
+        ls
       shell: bash
