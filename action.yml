@@ -20,6 +20,7 @@ runs:
         echo "HOST_ARCH=x86_64" >> $GITHUB_ENV
         case "${RUNNER_OS}" in
           macOS)    HOST_OS=Darwin;;
+                    PHARO=
           *)        HOST_OS=$RUNNER_OS
         esac
         echo "HOST_OS=$HOST_OS" >> $GITHUB_ENV
@@ -54,4 +55,13 @@ runs:
     - name: Append Pharo to the PATH
       run: |
         echo "$(pwd)/pharo-vm" >> $GITHUB_PATH
+        VM_PATH=$(pwd)
+        case "${RUNNER_OS}" in
+          Linux)    PHARO=$VM_PATH/pharo;;
+          Windows)  PHARO=VM_PATH\PharoConsole.exe;;
+          macOS)    PHARO=VM_PATH/Pharo.app/Contents/MacOS/Pharo;;
+        esac
+        echo "Setting \$PHARO alias to $PHARO"
+        echo "PHARO=$PHARO" >> $GITHUB_ENV
+
       shell: bash
