@@ -8,6 +8,9 @@ inputs:
   imageName:
     description: "Save the Pharo image under this name"
     default: "Pharo"
+  imageDir:
+    description: "Path where the Pharo image will be downloaded"
+    default: ${{ github.workspace}}
 
 runs:
   using: "composite"
@@ -41,9 +44,9 @@ runs:
         curl -L ${URL} -o pharo-image.zip
         unzip pharo-image.zip -d image
         rm -f pharo-image.zip
-        find image -name '*.image' -exec mv '{}' ${{ inputs.imageName }}.image \;
-        find image -name '*.changes' -exec mv '{}' ${{ inputs.imageName }}.changes \;
-        mv image/*.sources .
+        find image -name '*.image' -exec mv '{}' ${{ inputs.imageDir }}/${{ inputs.imageName }}.image \;
+        find image -name '*.changes' -exec mv '{}' ${{ inputs.imageDir }}/${{ inputs.imageName }}.changes \;
+        mv image/*.sources ${{ inputs.imageDir }}
         rm -rf image
         ls
       shell: bash
