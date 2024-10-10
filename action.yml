@@ -33,12 +33,13 @@ runs:
       run: |
         VM_STATUS="stable"
         URL="${{ env.FILES_URL }}/pharo-vm-${{ env.HOST_OS }}-${{ env.HOST_ARCH }}-${VM_STATUS}.zip"
-        echo "Downloading $URL to ${{ inputs.vmDir }}"
+        VM_DIR=$(echo "${{ inputs.vmDir }}" | sed 's#\\#/#g')
+        echo "Downloading $URL to $VM_DIR"
         curl -L $URL -o pharo-vm.zip
-        unzip pharo-vm.zip -d ${{ inputs.vmDir }}
+        unzip pharo-vm.zip -d $VM_DIR
         rm -f pharo-vm.zip
         pwd
-        ls -R ${{ inputs.vmDir }}
+        ls -R $VM_DIR
       shell: bash
 
     - name: Get Pharo image
