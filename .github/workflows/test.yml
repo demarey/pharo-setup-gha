@@ -30,5 +30,6 @@ jobs:
       - name: Test installation
         run: |
           echo $PATH
-          ls pharo-vm
+          ls $HOME/pharo-vm
+          $HOME/pharo-vm/pharo eval 'SystemVersion current printString'
           pharo eval 'SystemVersion current printString'
