@@ -10,10 +10,10 @@ inputs:
     default: "Pharo"
   imageDir:
     description: "Path where the Pharo image will be downloaded"
-    default: ${{ github.workspace}}
+    default: ${{ github.workspace }}
   vmDir:
     description: "Path where the Pharo VM will be downloaded"
-    default: ${{ github.workspace}}/pharo-vm
+    default: ${{ github.workspace }}/pharo-vm
     
 runs:
   using: "composite"
@@ -37,6 +37,8 @@ runs:
         curl -L $URL -o pharo-vm.zip
         unzip pharo-vm.zip -d ${{ inputs.vmDir }}
         rm -f pharo-vm.zip
+        pwd
+        ls -R ${{ inputs.vmDir }}
       shell: bash
 
     - name: Get Pharo image
