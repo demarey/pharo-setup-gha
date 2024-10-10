@@ -43,6 +43,7 @@ runs:
         rm -f pharo-image.zip
         find image -name '*.image' -exec mv '{}' ${{ inputs.imageName }}.image \;
         find image -name '*.changes' -exec mv '{}' ${{ inputs.imageName }}.changes \;
+        mv image/*.sources .
         rm -rf image
         ls
       shell: bash
