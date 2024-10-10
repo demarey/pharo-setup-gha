@@ -37,4 +37,4 @@ jobs:
           echo $PATH
           echo $PHARO
           echo $PHARO_BASH
-          # $PHARO --headless Pharo.image eval 'SystemVersion current printString'
+          echo $PHARO --headless Pharo.image eval 'SystemVersion current printString'
