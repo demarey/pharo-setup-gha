@@ -11,7 +11,10 @@ inputs:
   imageDir:
     description: "Path where the Pharo image will be downloaded"
     default: ${{ github.workspace}}
-
+  vmDir:
+    description: "Path where the Pharo VM will be downloaded"
+    default: ${{ github.workspace}}/pharo-vm
+    
 runs:
   using: "composite"
   steps:
@@ -32,10 +35,8 @@ runs:
         URL="${{ env.FILES_URL }}/pharo-vm-${{ env.HOST_OS }}-${{ env.HOST_ARCH }}-${VM_STATUS}.zip"
         echo "Downloading $URL"
         curl -L $URL -o pharo-vm.zip
-        unzip pharo-vm.zip -d pharo-vm
+        unzip pharo-vm.zip -d ${{ inputs.vmDir }}
         rm -f pharo-vm.zip
-        pwd
-        ls
       shell: bash
 
     - name: Get Pharo image
@@ -50,19 +51,15 @@ runs:
         find image -name '*.changes' -exec mv '{}' ${{ inputs.imageDir }}/${{ inputs.imageName }}.changes \;
         mv image/*.sources ${{ inputs.imageDir }}
         rm -rf image
-        ls
       shell: bash
 
     - name: Append Pharo to the PATH
       run: |
-        pwd
-        ls -R
-        echo "$(pwd)/pharo-vm" >> $GITHUB_PATH
-        VM_PATH=$(pwd)
+        echo "${{ inputs.vmDir }}" >> $GITHUB_PATH
         case "${RUNNER_OS}" in
-          Linux)    PHARO=$VM_PATH/pharo;;
-          Windows)  PHARO=$VM_PATH\PharoConsole.exe;;
-          macOS)    PHARO=$VM_PATH/Pharo.app/Contents/MacOS/Pharo;;
+          Linux)    PHARO=${{ inputs.vmDir }}/pharo;;
+          Windows)  PHARO=${{ inputs.vmDir }}\PharoConsole.exe;;
+          macOS)    PHARO=${{ inputs.vmDir }}/Contents/MacOS/Pharo;;
         esac
         echo "Setting \$PHARO alias to $PHARO"
         echo "PHARO=$PHARO" >> $GITHUB_ENV
