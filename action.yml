@@ -50,5 +50,7 @@ runs:
 
     - name: Append Pharo to the PATH
       run: |
+        echo "pwd: $(pwd)"
+        echo "home: $HOME"
         echo "${HOME}/pharo-vm" >> $GITHUB_PATH
       shell: bash
