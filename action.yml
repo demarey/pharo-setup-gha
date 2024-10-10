@@ -34,6 +34,8 @@ runs:
         curl -L $URL -o pharo-vm.zip
         unzip pharo-vm.zip -d pharo-vm
         rm -f pharo-vm.zip
+        pwd
+        ls
       shell: bash
 
     - name: Get Pharo image
@@ -53,6 +55,8 @@ runs:
 
     - name: Append Pharo to the PATH
       run: |
+        pwd
+        ls -R
         echo "$(pwd)/pharo-vm" >> $GITHUB_PATH
         VM_PATH=$(pwd)
         case "${RUNNER_OS}" in
