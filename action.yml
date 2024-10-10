@@ -61,7 +61,7 @@ runs:
         case "${RUNNER_OS}" in
           Linux)    PHARO=${{ inputs.vmDir }}/pharo;;
           Windows)  PHARO=${{ inputs.vmDir }}\PharoConsole.exe;;
-          macOS)    PHARO=${{ inputs.vmDir }}/Contents/MacOS/Pharo;;
+          macOS)    PHARO=${{ inputs.vmDir }}/Pharo.app/Contents/MacOS/Pharo;;
         esac
         echo "Setting \$PHARO alias to $PHARO"
         echo "PHARO=$PHARO" >> $GITHUB_ENV
