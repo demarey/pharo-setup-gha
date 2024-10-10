@@ -30,4 +30,5 @@ jobs:
       - name: Test installation
         run: |
           echo $PATH
+          ls -R .
           pharo eval 'SystemVersion current printString'
