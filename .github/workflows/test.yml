@@ -25,9 +25,7 @@ jobs:
 
     runs-on: ${{ matrix.os }}
     
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: demarey/pharo-setup-gha@main
         with:
           version: ${{ matrix.version }}
@@ -53,3 +51,39 @@ jobs:
           PHARO_VERSION=$($PHARO --headless Pharo.image eval 'SystemVersion current printString')
           assert_starts_with "$PHARO_VERSION" "'Pharo-${{ matrix.version }}"  # Should pass
         shell: bash
+
+  test-vm-dir:
+    strategy:
+      fail-fast: false
+      matrix:
+        version: [13]
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
+    runs-on: ${{ matrix.os }}
+    
+    steps:
+      - uses: demarey/pharo-setup-gha@main
+        with:
+          version: ${{ matrix.version }}
+          imageDir: foo/bar
+          useBashOnWindows: true
+
+      - name: Test VM installation in a specific dir
+        run: |
+          echo "$PHARO"
+
+          prefix=$(pwd)          
+          # Check if $PHARO starts with $prefix and remove it
+          if [[ "$PHARO" == "$prefix"* ]]; then
+            var="${PHARO#$prefix}"
+          fi
+
+          found=$(find $(pwd)/foo/bar -type f \( -iname "pharo" -o -name "Pharo.exe" \))
+          if [ -n "$found_files" ]; then
+              echo "Assertion passed: Found Pharo executable $found"
+          else
+              echo "Assertion failed: No Pharo executable found"
+              ls -R .
+          fi
+        shell: bash
+  
