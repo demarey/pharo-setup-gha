@@ -31,10 +31,11 @@ jobs:
       - uses: demarey/pharo-setup-gha@main
         with:
           version: 13
+          useBashOnWindows: true
 
       - name: Test installation
         run: |
-          echo $PATH
-          echo $PHARO
-          echo $PHARO_BASH
-          echo $PHARO --headless Pharo.image eval 'SystemVersion current printString'
+          echo "$PATH"
+          echo "$PHARO"
+          echo "$PHARO_BASH"
+          $PHARO --headless Pharo.image eval 'SystemVersion current printString'
