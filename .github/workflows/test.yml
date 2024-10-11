@@ -20,7 +20,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # version: [11, 12, 13]
+        version: [11, 12, 13]
         os: [ubuntu-latest, macos-latest, windows-latest]
 
     runs-on: ${{ matrix.os }}
@@ -30,7 +30,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: demarey/pharo-setup-gha@main
         with:
-          version: 13
+          version: ${{ matrix.version }}
           useBashOnWindows: true
 
       - name: Test installation
