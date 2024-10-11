@@ -16,8 +16,8 @@ inputs:
     default: ${{ github.workspace }}/pharo-vm
   useBashOnWindows:
     description: |
-      "Tells if the $PHARO environment variable should be defined as a Linux path so that it can be used in a Bash shell.
-      If not set or false, the $PHARO command will use Windows path and is intended to be used with Powershell or Cmd."
+      Tells if the $PHARO environment variable should be defined as a Linux path so that it can be used in a Bash shell.
+      If not set or false, the $PHARO command will use Windows path and is intended to be used with Powershell or Cmd.
     default: false
     
 runs:
@@ -70,7 +70,7 @@ runs:
           Linux)    PHARO=${{ inputs.vmDir }}/pharo;;
           Windows)  VM_DIR_WIN=$(echo "${{ inputs.vmDir }}" | sed 's#/#\\#g')
                     PHARO=$VM_DIR_WIN\\PharoConsole.exe
-                    PHARO_BASH=${{ steps.vars.outputs.VM_DIR }}/PharoConsole.exe"
+                    PHARO_BASH=${{ steps.vars.outputs.VM_DIR }}/PharoConsole.exe
                     if [[ ${{ inputs.useBashOnWindows }} == 'true' ]]; then
                       PHARO=$PHARO_BASH
                       echo "PHARO_WIN=$PHARO" >> $GITHUB_ENV
