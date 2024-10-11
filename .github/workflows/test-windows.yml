@@ -34,4 +34,20 @@ jobs:
 
       - name: Test installation
         run: |
-          & "$Env:PHARO" --headless Pharo.image eval 'SystemVersion current printString'
+          function Assert-StartsWith {
+            param (
+                [string]$string,
+                [string]$prefix
+            )
+        
+            if ($string.StartsWith($prefix)) {
+                Write-Output "Assertion passed: '$string' starts with '$prefix'."
+                return $true
+            } else {
+                Write-Output "Assertion failed: '$string' does not start with '$prefix'."
+                return $false
+            }
+          }
+        
+          $result = & "$Env:PHARO" --headless Pharo.image eval 'SystemVersion current printString'
+          Assert-StartsWith $result "'Pharo-${{ matrix.version }}"   # Should pass
