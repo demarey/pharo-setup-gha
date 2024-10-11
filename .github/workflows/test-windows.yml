@@ -34,7 +34,4 @@ jobs:
 
       - name: Test installation
         run: |
-          echo "$PATH"
-          echo "$PHARO"
-          echo "$PHARO_BASH"
-          $PHARO --headless Pharo.image eval 'SystemVersion current printString'
+          %PHARO% --headless Pharo.image eval 'SystemVersion current printString'
