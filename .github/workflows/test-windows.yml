@@ -34,4 +34,4 @@ jobs:
 
       - name: Test installation
         run: |
-          %PHARO% --headless Pharo.image eval 'SystemVersion current printString'
+          "$Env:PHARO" --headless Pharo.image eval 'SystemVersion current printString'
