@@ -58,6 +58,7 @@ runs:
         curl -L ${URL} -o pharo-image.zip
         unzip pharo-image.zip -d image
         rm -f pharo-image.zip
+        mkdir -p ${{ steps.vars.outputs.IMAGE_DIR }}
         find image -name '*.image' -exec mv '{}' ${{ steps.vars.outputs.IMAGE_DIR }}/${{ inputs.imageName }}.image \;
         find image -name '*.changes' -exec mv '{}' ${{ steps.vars.outputs.IMAGE_DIR }}/${{ inputs.imageName }}.changes \;
         mv image/*.sources ${{ steps.vars.outputs.IMAGE_DIR }}
