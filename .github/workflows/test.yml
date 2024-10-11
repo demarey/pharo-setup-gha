@@ -82,7 +82,35 @@ jobs:
           if [ -n "$found" ]; then
               echo "Assertion passed: Found Pharo executable $found"
           else
-              echo "Assertion failed: No Pharo executable found"
+              echo "Assertion failed: No Pharo executable found!"
+              ls -R .
+              return 1 # failure
+          fi
+        shell: bash
+  
+  test-image-dir:
+    strategy:
+      fail-fast: false
+      matrix:
+        version: [13]
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
+    runs-on: ${{ matrix.os }}
+    
+    steps:
+      - uses: demarey/pharo-setup-gha@main
+        with:
+          version: ${{ matrix.version }}
+          imageDir: foo/bar
+          useBashOnWindows: true
+
+      - name: Test VM installation in a specific dir
+        run: |
+          found=$(find $(pwd)/foo/bar -type f -name Pharo.image)
+          if [ -n "$found" ]; then
+              echo "Assertion passed: Found Pharo image $found"
+          else
+              echo "Assertion failed: No Pharo image found!"
               ls -R .
               return 1 # failure
           fi
