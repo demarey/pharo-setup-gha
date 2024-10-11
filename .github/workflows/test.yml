@@ -79,7 +79,7 @@ jobs:
           fi
 
           found=$(find $(pwd)/foo/bar -type f \( -iname "pharo" -o -name "Pharo.exe" \))
-          if [ -n "$foundlll" ]; then
+          if [ -n "$found" ]; then
               echo "Assertion passed: Found Pharo executable $found"
           else
               echo "Assertion failed: No Pharo executable found"
