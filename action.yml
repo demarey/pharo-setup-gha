@@ -64,7 +64,7 @@ runs:
         case "${RUNNER_OS}" in
           Linux)    PHARO=${{ inputs.vmDir }}/pharo;;
           Windows)  VM_DIR_WIN=$(echo "${{ inputs.vmDir }}" | sed 's#/#\\#g')
-                    PHARO=$VM_DIR_WIN\PharoConsole.exe
+                    PHARO=$VM_DIR_WIN\\PharoConsole.exe
                     echo "PHARO_BASH=${{ steps.vars.outputs.VM_DIR }}/PharoConsole.exe" >> $GITHUB_ENV;;
           macOS)    PHARO=${{ inputs.vmDir }}/Pharo.app/Contents/MacOS/Pharo;;
         esac
