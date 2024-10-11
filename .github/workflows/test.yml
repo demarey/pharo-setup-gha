@@ -65,7 +65,7 @@ jobs:
       - uses: demarey/pharo-setup-gha@main
         with:
           version: ${{ matrix.version }}
-          imageDir: foo/bar
+          vmDir: foo/bar
           useBashOnWindows: true
 
       - name: Test VM installation in a specific dir
