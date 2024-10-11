@@ -43,6 +43,7 @@ runs:
       run: |
         VM_STATUS="stable"
         URL="${{ env.FILES_URL }}/pharo-vm-${{ env.HOST_OS }}-${{ env.HOST_ARCH }}-${VM_STATUS}.zip"
+        mkdir -p dirname(${{ steps.vars.outputs.VM_DIR }})
         echo "Downloading $URL to ${{ steps.vars.outputs.VM_DIR }}"
         curl -L $URL -o pharo-vm.zip
         unzip -q pharo-vm.zip -d ${{ steps.vars.outputs.VM_DIR }}
