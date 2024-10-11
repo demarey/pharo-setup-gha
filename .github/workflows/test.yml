@@ -51,5 +51,5 @@ jobs:
           }
           
           PHARO_VERSION=$($PHARO --headless Pharo.image eval 'SystemVersion current printString')
-          assert_starts_with "$PHARO_VERSION" "Pharo${{ matrix.version }}"  # Should pass
+          assert_starts_with "$PHARO_VERSION" "Pharo-${{ matrix.version }}"  # Should pass
         shell: bash
