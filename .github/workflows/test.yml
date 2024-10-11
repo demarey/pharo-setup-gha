@@ -39,3 +39,4 @@ jobs:
           echo "$PHARO"
           echo "$PHARO_BASH"
           $PHARO --headless Pharo.image eval 'SystemVersion current printString'
+        shell: bash
