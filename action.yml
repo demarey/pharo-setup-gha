@@ -45,10 +45,8 @@ runs:
         URL="${{ env.FILES_URL }}/pharo-vm-${{ env.HOST_OS }}-${{ env.HOST_ARCH }}-${VM_STATUS}.zip"
         echo "Downloading $URL to ${{ steps.vars.outputs.VM_DIR }}"
         curl -L $URL -o pharo-vm.zip
-        unzip pharo-vm.zip -d ${{ steps.vars.outputs.VM_DIR }}
+        unzip -q pharo-vm.zip -d ${{ steps.vars.outputs.VM_DIR }}
         rm -f pharo-vm.zip
-        pwd
-        ls -R ${{ steps.vars.outputs.VM_DIR }}
       shell: bash
 
     - name: Get Pharo image
