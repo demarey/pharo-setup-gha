@@ -35,6 +35,8 @@ runs:
         echo "FILES_URL=https://files.pharo.org/get-files/${{ inputs.version }}0" >> $GITHUB_ENV
         VM_DIR=$(echo "${{ inputs.vmDir }}" | sed 's#\\#/#g')
         echo "VM_DIR=$VM_DIR" >> $GITHUB_OUTPUT
+        IMAGE_DIR=$(echo "${{ inputs.imageDir }}" | sed 's#\\#/#g')
+        echo "IMAGE_DIR=$IMAGE_DIR" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: Install Pharo VM
@@ -57,9 +59,9 @@ runs:
         curl -L ${URL} -o pharo-image.zip
         unzip pharo-image.zip -d image
         rm -f pharo-image.zip
-        find image -name '*.image' -exec mv '{}' ${{ steps.vars.outputs.VM_DIR }}/${{ inputs.imageName }}.image \;
-        find image -name '*.changes' -exec mv '{}' ${{ steps.vars.outputs.VM_DIR }}/${{ inputs.imageName }}.changes \;
-        mv image/*.sources ${{ inputs.imageDir }}
+        find image -name '*.image' -exec mv '{}' ${{ steps.vars.outputs.IMAGE_DIR }}/${{ inputs.imageName }}.image \;
+        find image -name '*.changes' -exec mv '{}' ${{ steps.vars.outputs.IMAGE_DIR }}/${{ inputs.imageName }}.changes \;
+        mv image/*.sources ${{ steps.vars.outputs.IMAGE_DIR }}
         rm -rf image
       shell: bash
 
