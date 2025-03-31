@@ -26,7 +26,8 @@ runs:
     - name: Set env vars related to system
       id: vars
       run: |
-        echo "HOST_ARCH=x86_64" >> $GITHUB_ENV
+        HOST_ARCH=`uname -m`
+        echo "HOST_ARCH=$HOST_ARCH" >> $GITHUB_ENV
         case "${RUNNER_OS}" in
           macOS)    HOST_OS=Darwin;;
           *)        HOST_OS=$RUNNER_OS
