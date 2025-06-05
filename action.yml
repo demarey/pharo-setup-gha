@@ -19,6 +19,8 @@ inputs:
       Tells if the $PHARO environment variable should be defined as a Linux path so that it can be used in a Bash shell.
       If not set or false, the $PHARO command will use Windows path and is intended to be used with Powershell or Cmd.
     default: false
+  vmUrl:
+    description: "A Url that points to the VM to install. It has to be a zip file."
     
 runs:
   using: "composite"
@@ -43,7 +45,11 @@ runs:
     - name: Install Pharo VM
       run: |
         VM_STATUS="stable"
-        URL="${{ env.FILES_URL }}/pharo-vm-${{ env.HOST_OS }}-${{ env.HOST_ARCH }}-${VM_STATUS}.zip"
+        if [ -n "${{ inputs.vmUrl }}" ]; then
+          URL="${{ inputs.vmUrl }}"
+        else
+          URL="${{ env.FILES_URL }}/pharo-vm-${{ env.HOST_OS }}-${{ env.HOST_ARCH }}-${VM_STATUS}.zip"
+        fi
         mkdir -p $(dirname ${{ steps.vars.outputs.VM_DIR }})
         echo "Downloading $URL to ${{ steps.vars.outputs.VM_DIR }}"
         curl -L $URL -o pharo-vm.zip
